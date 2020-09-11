@@ -1,3 +1,5 @@
+// Tell emacs that this is a C++ source
+//  -*- C++ -*-.
 /* vim: set sw=2 ft=cpp: */
 
 #ifndef G4EPD_PHG4EPDETECTOR_H
@@ -5,12 +7,11 @@
 
 #include <g4main/PHG4Detector.h>
 
-#include <Geant4/G4ExtrudedSolid.hh>
-
 #include <cstdint>
 #include <map>
 #include <string>
 
+class G4ExtrudedSolid;
 class G4LogicalVolume;
 class G4VPhysicalVolume;
 class PHCompositeNode;
@@ -36,8 +37,6 @@ class PHG4EPDetector : public PHG4Detector {
 
   private:
     G4ExtrudedSolid* construct_block(int32_t index);
-
-    PHParametersContainer* m_params;
 
     std::map<G4VPhysicalVolume*, uint32_t> m_volumes;
 

@@ -8,6 +8,8 @@
 #include <phparameter/PHParameters.h>
 #include <phparameter/PHParametersContainer.h>
 
+#include <g4detectors/PHG4DetectorGroupSubsystem.h>  // for PHG4DetectorGroupSubsystem
+
 #include <g4main/PHG4HitContainer.h>
 
 #include <phool/PHCompositeNode.h>

@@ -1,3 +1,5 @@
+// Tell emacs that this is a C++ source
+//  -*- C++ -*-.
 /* vim: set sw=2 ft=cpp: */
 
 #ifndef G4EPD_PHG4EPDSUBSYSTEM_H

@@ -23,12 +23,13 @@
 #include <Geant4/G4Track.hh>
 #include <Geant4/G4TrackStatus.hh>
 #include <Geant4/G4Types.hh>
-#include <Geant4/G4VPhysicalVolume.hh>
 #include <Geant4/G4VTouchable.hh>
 #include <Geant4/G4VUserTrackInformation.hh>
 
 #include <iostream>
 #include <string>
+
+class G4VPhysicalVolume;
 
 PHG4EPSteppingAction::PHG4EPSteppingAction(PHG4EPDetector* detector,
                                            const PHParametersContainer*)
@@ -95,7 +96,6 @@ bool PHG4EPSteppingAction::UserSteppingAction(const G4Step* step, bool) {
   m_hit->set_eion(m_hit->get_eion() + ionising);
 
   G4StepPoint* poststep = step->GetPostStepPoint();
-  G4TouchableHandle posthandle = poststep->GetTouchableHandle();
 
   poststatus = poststep->GetStepStatus();
 
