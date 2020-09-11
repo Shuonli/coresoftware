@@ -41,11 +41,13 @@ PHG4EPSteppingAction::PHG4EPSteppingAction(PHG4EPDetector* detector,
 {
 }
 
-PHG4EPSteppingAction::~PHG4EPSteppingAction() {
+PHG4EPSteppingAction::~PHG4EPSteppingAction()
+{
   delete m_hit;
 }
 
-bool PHG4EPSteppingAction::UserSteppingAction(const G4Step* step, bool) {
+bool PHG4EPSteppingAction::UserSteppingAction(const G4Step* step, bool)
+{
   G4StepPoint* prestep = step->GetPreStepPoint();
   G4TouchableHandle prehandle = prestep->GetTouchableHandle();
 
@@ -63,9 +65,8 @@ bool PHG4EPSteppingAction::UserSteppingAction(const G4Step* step, bool) {
 
   G4Track const* track = step->GetTrack();
 
-  if ((prestatus == fPostStepDoItProc && poststatus == fGeomBoundary)
-      || prestatus == fGeomBoundary
-      || prestatus == fUndefined) {
+  if ((prestatus == fPostStepDoItProc && poststatus == fGeomBoundary) || prestatus == fGeomBoundary || prestatus == fUndefined)
+  {
     if (m_hit == nullptr)
       m_hit = new PHG4Hitv1();
 
@@ -79,13 +80,14 @@ bool PHG4EPSteppingAction::UserSteppingAction(const G4Step* step, bool) {
     m_hit->set_trkid(track->GetTrackID());
 
     PHG4TrackUserInfoV1* userinfo = dynamic_cast<PHG4TrackUserInfoV1*>(
-      track->GetUserInformation());
+        track->GetUserInformation());
 
-    if (userinfo != nullptr) {
+    if (userinfo != nullptr)
+    {
       m_hit->set_trkid(userinfo->GetUserTrackId());
 
       userinfo->GetShower()->add_g4hit_id(
-	m_hit_container->GetID(), m_hit->get_hit_id());
+          m_hit_container->GetID(), m_hit->get_hit_id());
     }
 
     m_hit->set_edep(0);
@@ -99,13 +101,11 @@ bool PHG4EPSteppingAction::UserSteppingAction(const G4Step* step, bool) {
 
   poststatus = poststep->GetStepStatus();
 
-  if (poststatus != fGeomBoundary
-      && poststatus != fWorldBoundary
-      && poststatus != fAtRestDoItProc
-      && track->GetTrackStatus() != fStopAndKill)
+  if (poststatus != fGeomBoundary && poststatus != fWorldBoundary && poststatus != fAtRestDoItProc && track->GetTrackStatus() != fStopAndKill)
     return true;
 
-  if (m_hit->get_edep() <= 0) {
+  if (m_hit->get_edep() <= 0)
+  {
     m_hit->Reset();
 
     return true;
@@ -117,7 +117,7 @@ bool PHG4EPSteppingAction::UserSteppingAction(const G4Step* step, bool) {
   m_hit->set_t(1, poststep->GetGlobalTime() / nanosecond);
 
   PHG4TrackUserInfoV1* userinfo = dynamic_cast<PHG4TrackUserInfoV1*>(
-    track->GetUserInformation());
+      track->GetUserInformation());
 
   if (userinfo != nullptr)
     userinfo->SetKeep(1);
@@ -129,13 +129,15 @@ bool PHG4EPSteppingAction::UserSteppingAction(const G4Step* step, bool) {
   return true;
 }
 
-void PHG4EPSteppingAction::SetInterfacePointers(PHCompositeNode* node) {
+void PHG4EPSteppingAction::SetInterfacePointers(PHCompositeNode* node)
+{
   std::string label = "G4HIT_" + ((m_detector->SuperDetector() != "NONE")
-    ? m_detector->SuperDetector() : m_detector->GetName());
+                                      ? m_detector->SuperDetector()
+                                      : m_detector->GetName());
 
   m_hit_container = findNode::getClass<PHG4HitContainer>(node, label.data());
 
   if (m_hit_container == nullptr)
     std::cout << "[PHG4EPSteppingAction::SetInterfacePointers] unable to find "
-    << label << '\n';
+              << label << '\n';
 }
