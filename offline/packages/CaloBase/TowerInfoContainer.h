@@ -25,9 +25,15 @@ class TowerInfoContainer : public PHObject
     DETECTOR_INVALID = 9999
   };
 
+  enum TowerVersion
+  {
+    V1 = 1,
+    V2 = 2
+  };
+
   TowerInfoContainer() = default;
   ~TowerInfoContainer() override = default;
- 
+
   virtual void Reset() override {}
   virtual TowerInfo* get_tower_at_channel(int /*index*/) { return nullptr; }
   virtual TowerInfo* get_tower_at_key(int /*key*/) { return nullptr; }
@@ -48,9 +54,10 @@ class TowerInfoContainer : public PHObject
   virtual unsigned int decode_mbd(unsigned int /*towerIndex*/) { return UINT_MAX; }
   virtual unsigned int decode_zdc(unsigned int /*towerIndex*/) { return UINT_MAX; }
 
-
   virtual unsigned int getTowerPhiBin(unsigned int /*towerIndex*/) { return UINT_MAX; }
   virtual unsigned int getTowerEtaBin(unsigned int /*towerIndex*/) { return UINT_MAX; }
+
+  virtual void set_tower_version(TowerVersion /*tower_version*/) {}
 
  private:
   ClassDefOverride(TowerInfoContainer, 1);

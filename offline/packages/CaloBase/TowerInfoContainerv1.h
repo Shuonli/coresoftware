@@ -43,10 +43,12 @@ class TowerInfoContainerv1 : public TowerInfoContainer
   unsigned int getTowerPhiBin(unsigned int towerIndex) override;
   unsigned int getTowerEtaBin(unsigned int towerIndex) override;
 
+  void set_tower_version(TowerVersion tower_version) override { _tower_version = tower_version; }
+
  protected:
   TClonesArray *_clones = nullptr;
   DETECTOR _detector = DETECTOR_INVALID;
-
+  TowerVersion _tower_version = V1;
  private:
   ClassDefOverride(TowerInfoContainerv1, 1);
 };

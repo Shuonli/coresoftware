@@ -1,6 +1,7 @@
 #include "TowerInfoContainerv1.h"
-#include "TowerInfov1.h"
 #include "TowerInfoDefs.h"
+#include "TowerInfov1.h"
+#include "TowerInfov2.h"
 
 #include <phool/PHObject.h>
 #include <phool/phool.h>
@@ -8,7 +9,6 @@
 #include <TClonesArray.h>
 
 #include <cassert>
-
 
 TowerInfoContainerv1::TowerInfoContainerv1(DETECTOR detec)
   : _detector(detec)
@@ -34,7 +34,15 @@ TowerInfoContainerv1::TowerInfoContainerv1(DETECTOR detec)
   {
     nchannels = 16;
   }
-  _clones = new TClonesArray("TowerInfov1", nchannels);
+  if (_tower_version == V2)
+  {
+    
+    _clones = new TClonesArray("TowerInfov2", nchannels);
+  }
+  else
+  {
+    _clones = new TClonesArray("TowerInfov1", nchannels);
+  }
   _clones->SetOwner();
   _clones->SetName("TowerInfoContainerv1");
   for (int i = 0; i < nchannels; ++i)
@@ -58,12 +66,12 @@ void TowerInfoContainerv1::Reset()
   {
     TObject* obj = _clones->UncheckedAt(i);
 
-    if (obj==nullptr)
+    if (obj == nullptr)
     {
-      std::cout<<__PRETTY_FUNCTION__<<" Fatal access error:"
-          <<" _clones->GetSize() = "<<_clones->GetSize()
-          <<" _clones->GetEntriesFast() = "<<_clones->GetEntriesFast()
-          <<" i = "<<i<<std::endl;
+      std::cout << __PRETTY_FUNCTION__ << " Fatal access error:"
+                << " _clones->GetSize() = " << _clones->GetSize()
+                << " _clones->GetEntriesFast() = " << _clones->GetEntriesFast()
+                << " i = " << i << std::endl;
       _clones->Print();
     }
 
@@ -80,7 +88,6 @@ TowerInfov1* TowerInfoContainerv1::get_tower_at_channel(int pos)
 {
   return (TowerInfov1*) _clones->At(pos);
 }
-
 
 TowerInfov1* TowerInfoContainerv1::get_tower_at_key(int pos)
 {
@@ -121,55 +128,54 @@ unsigned int TowerInfoContainerv1::encode_key(unsigned int towerIndex)
 {
   int key = 0;
   if (_detector == DETECTOR::EMCAL)
-    {
-      key = TowerInfoContainerv1::encode_emcal(towerIndex);
-    }
+  {
+    key = TowerInfoContainerv1::encode_emcal(towerIndex);
+  }
   else if (_detector == DETECTOR::HCAL)
-    {
-      key = TowerInfoContainerv1::encode_hcal(towerIndex);
-    }
+  {
+    key = TowerInfoContainerv1::encode_hcal(towerIndex);
+  }
   else if (_detector == DETECTOR::SEPD)
-    {
+  {
     key = TowerInfoContainerv1::encode_epd(towerIndex);
-    }
+  }
   else if (_detector == DETECTOR::MBD)
-    {
+  {
     key = TowerInfoContainerv1::encode_mbd(towerIndex);
-    }
+  }
   else if (_detector == DETECTOR::ZDC)
-    {
+  {
     key = TowerInfoContainerv1::encode_zdc(towerIndex);
-    }
+  }
   return key;
 }
 
 unsigned int TowerInfoContainerv1::decode_epd(unsigned int tower_key)
 {
-  unsigned int index = TowerInfoDefs::decode_epd(tower_key);  
+  unsigned int index = TowerInfoDefs::decode_epd(tower_key);
   return index;
 }
 
 unsigned int TowerInfoContainerv1::decode_emcal(unsigned int tower_key)
 {
-
-  unsigned int index = TowerInfoDefs::decode_emcal(tower_key);  
+  unsigned int index = TowerInfoDefs::decode_emcal(tower_key);
   return index;
 }
 
 unsigned int TowerInfoContainerv1::decode_hcal(unsigned int tower_key)
 {
-  unsigned int index = TowerInfoDefs::decode_hcal(tower_key);  
+  unsigned int index = TowerInfoDefs::decode_hcal(tower_key);
   return index;
 }
 
 unsigned int TowerInfoContainerv1::decode_mbd(unsigned int tower_key)
 {
-  unsigned int index = TowerInfoDefs::decode_mbd(tower_key);  
+  unsigned int index = TowerInfoDefs::decode_mbd(tower_key);
   return index;
 }
 unsigned int TowerInfoContainerv1::decode_zdc(unsigned int tower_key)
 {
-  unsigned int index = TowerInfoDefs::decode_zdc(tower_key);  
+  unsigned int index = TowerInfoDefs::decode_zdc(tower_key);
   return index;
 }
 
