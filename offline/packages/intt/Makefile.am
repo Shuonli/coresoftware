@@ -33,6 +33,7 @@ lib_LTLIBRARIES = \
   libintt.la 
 
 pkginclude_HEADERS = \
+  InttBCOMap.h \
   InttClusterizer.h \
   InttClusterQA.h \
   InttCombinedRawDataConverter.h \
@@ -53,6 +54,7 @@ pkginclude_HEADERS = \
   InttVertexMapv1.h \
   InttVertex.h \
   InttVertexv1.h \
+  InttDacMap.h \
   CylinderGeomIntt.h
 
 ROOTDICTS = \
@@ -86,6 +88,7 @@ nobase_dist_pcm_DATA = \
 
 # sources for intt library
 libintt_la_SOURCES = \
+  InttBCOMap.cc \
   InttClusterizer.cc \
   InttClusterQA.cc \
   InttCombinedRawDataConverter.cc \
@@ -101,7 +104,8 @@ libintt_la_SOURCES = \
   InttRawDataDecoder.cc \
   InttSurveyMap.cc \
   InttSurveyMapv1.cc \
-  InttVertexFinder.cc
+  InttVertexFinder.cc \
+  InttDacMap.cc
 
 libintt_la_LIBADD = \
   libintt_io.la \
