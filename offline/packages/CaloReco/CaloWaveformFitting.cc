@@ -253,6 +253,12 @@ std::vector<std::vector<float>> CaloWaveformFitting::calo_processing_fast(std::v
         amp = maxy;
         time = maxx;
       }
+      //if nsamples > 10, maxx <=5 then use the last 2 samples avg as pedestal
+      else if (nsamples > 10 && maxx <= 5)
+      {
+        ped = 0.5 * (v.at(nsamples - 2) + v.at(nsamples - 1));
+        FastMax(0, 1, 2, v.at(0), v.at(1), v.at(2), time, amp);
+      }
       else
       {
         FastMax(maxx - 1, maxx, maxx + 1, v.at(maxx - 1), v.at(maxx), v.at(maxx + 1), time, amp);
