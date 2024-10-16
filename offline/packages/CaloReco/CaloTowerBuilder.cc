@@ -315,9 +315,29 @@ int CaloTowerBuilder::process_data(PHCompositeNode *topNode, std::vector<std::ve
         }
         else
         {
-          for (int samp = 0; samp < m_nsamples; samp++)
+          bool szs = false;
+          if(m_dotbtszs)
           {
-            waveform.push_back(packet->iValue(samp, channel));
+            unsigned int key = m_CalowaveformContainer->encode_key(waveforms.size());
+            int zs_threshold = cdbttree_tbt_zs->GetIntValue(key, m_zs_fieldname);
+            int pre = packet->iValue(0, channel);
+            int post = packet->iValue(6, channel);
+            if((post - pre) <= zs_threshold)
+            {
+              szs = true;
+            }
+          }
+          if (szs)
+          {
+            waveform.push_back(packet->iValue(0, channel));
+            waveform.push_back(packet->iValue(6, channel));
+          }
+          else
+          {
+            for (int samp = 0; samp < m_nsamples; samp++)
+            {
+              waveform.push_back(packet->iValue(samp, channel));
+            }
           }
         }
         waveforms.push_back(waveform);
