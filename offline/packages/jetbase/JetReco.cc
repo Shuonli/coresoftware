@@ -139,6 +139,7 @@ int JetReco::process_event(PHCompositeNode *topNode)
         fout.open("fixme_jetmap", std::fstream::app);
         fout << " Printing jet results " << std::endl;
         JetMap *jetmap = findNode::getClass<JetMap>(topNode, _outputs[ialgo]);
+        jetmap->Reset();
         int ifixme = 0;
         for (auto &_jet : *jetmap)
         {
@@ -169,6 +170,7 @@ int JetReco::process_event(PHCompositeNode *topNode)
         fout.open("fixme_jetcont", std::fstream::app);
         fout << " Printing jet results" << std::endl;
         JetContainer *jet_cont = findNode::getClass<JetContainer>(topNode, JC_name(_outputs[ialgo]));
+        jet_cont->Reset();
         int ifixme = 0;
 
         /* for (auto jet = jet_cont->begin(); jet != jet_cont->end(); ++jet) { */
