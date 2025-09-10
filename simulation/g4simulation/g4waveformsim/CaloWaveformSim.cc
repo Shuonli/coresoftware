@@ -277,7 +277,7 @@ int CaloWaveformSim::process_event(PHCompositeNode *topNode)
     float ADC = (calibconst != 0) ? e_dep / calibconst : 0.;
     ADC *= m_gain;
 
-    if(cdbttree_MC)
+    if(cdbttree_MC && m_doMCCalib)
     {
       float MC_calibconst = cdbttree_MC->GetFloatValue(key, m_MC_fieldname);
       ADC *= MC_calibconst;

@@ -56,6 +56,7 @@ public:
   void set_directURL_MCcalib(const std::string &url) { m_giveDirectURL_MC = true; m_directURL_MC = url; }
   void set_overrideMCFieldName(bool overrideField) { m_overrideMCFieldName = overrideField; }
   void set_overrideMCCalibName(bool overrideCalib) { m_overrideMCCalibName = overrideCalib; }
+  void set_doMCCalib(bool doMCCalib) { m_doMCCalib = doMCCalib; }
 
   // Time calibration (data)
   void set_fieldname_time(const std::string &fieldname_time) { m_fieldname_time = fieldname_time; m_overrideTimeFieldName = true; }
@@ -114,11 +115,12 @@ private:
   bool        m_overrideMCFieldName{false};
   bool        m_overrideMCCalibName{false};
   bool        m_giveDirectURL_MC{false};
+  bool        m_doMCCalib{true};
   std::string m_directURL_MC{""};
 
   // Data time calibration
   std::string m_fieldname_time{"time"};
-  std::string m_calibName_time{"CEMC_meanTime"};
+  std::string m_calibName_time{"CEMC_meanTime"};  
   bool        m_overrideTimeFieldName{false};
   bool        m_overrideTimeCalibName{false};
   bool        m_dotimecalib{true};
